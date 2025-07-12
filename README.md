@@ -1,23 +1,35 @@
 # TipTap Diff Suggestions Extension
 
-A framework-agnostic TipTap extension that enables inline comparison between current content and LLM-generated suggestions.
+A TipTap extension for inline comparison of content with suggested revisions, including interactive controls.
+
+## Idea/Goal
+
+This extension provides a way to visualize and interact with suggested changes within a TipTap editor. It bridges the gap between static diff viewers and actionable content editing, allowing users to evaluate, accept, or reject suggestions directly in the editor.
+
+## Use Cases
+
+- **AI-Powered Writing Assistance**: Displaying and managing suggestions from AI writing tools.
+- **Collaborative Content Review**: Facilitating editorial suggestions and peer review workflows.
+- **Translation and Localization**: Presenting and integrating translation suggestions.
 
 ## Features
 
-- 🔍 **HTML-based Structure**: Uses semantic HTML structure for diff suggestions
-- ✅ **Accept/Reject Actions**: Interactive buttons to accept or reject suggestions
-- 💬 **Comments Support**: Add contextual comments to suggestions
-- 🎨 **Customizable Styling**: Built-in styles with dark mode support
-- 🚀 **Framework Agnostic**: Works with any JavaScript framework
-- � **Extensible**: Support for custom handlers and side-effects
-- �📦 **TypeScript Support**: Full type definitions included
+- 📝 **Interactive Diff Visualization**: Inline comparison with accept/reject controls
+- 🎯 **Customizable Actions**: From simple buttons to complex approval workflows  
+- 💬 **Contextual Comments**: Add explanations and reasoning to suggestions
+- 🎨 **Headless Design**: No built-in styles - from quick prototyping to fully branded experiences
+- 🔧 **Extensible Toolbar**: Custom action panels and interactive elements
+- 🎭 **CSS Variables**: Themeable styling system with dark mode support
+- 🚀 **Framework Agnostic**: Leverages TipTap's framework-agnostic architecture
+- 📦 **TypeScript Ready**: Full type definitions for better developer experience
+- ⚡ **Side-effect Hooks**: Integrate with external systems and workflows
 
 ## HTML Structure
 
 The extension generates the following HTML structure:
 
 ```html
-<span data-diff-suggestion data-diff-suggestion-id="unique-id" data-diff-suggestion-comment="LLM reason">
+<span data-diff-suggestion data-diff-suggestion-id="unique-id" data-diff-suggestion-comment="reason for suggestion">
   <span data-diff-suggestion-old>Original text</span>
   <span data-diff-suggestion-new>Suggested text</span>
 </span>
@@ -26,7 +38,7 @@ The extension generates the following HTML structure:
 ## Installation
 
 ```bash
-npm install @tiptap/extension-diff-suggestions
+npm install @bsachinthana/tiptap-diff-suggestions
 ```
 
 ## Usage
@@ -35,7 +47,7 @@ npm install @tiptap/extension-diff-suggestions
 
 ```typescript
 import { Editor } from '@tiptap/core';
-import { DiffSuggestion } from '@tiptap/extension-diff-suggestions';
+import { DiffSuggestion } from '@bsachinthana/tiptap-diff-suggestions';
 
 const editor = new Editor({
   extensions: [
@@ -44,6 +56,10 @@ const editor = new Editor({
   ],
 });
 ```
+> #### ⚠️ Headless Architecture
+> Following TipTap's headless architecture, this extension includes no built-in styling. 
+> For rapid prototyping, use the included sample CSS. For production, leverage CSS variables and custom styling. Refer [styling](#styling) for more information
+
 
 ### Inserting Diff Suggestions
 
@@ -52,6 +68,18 @@ editor.commands.insertDiffSuggestion({
   id: 'unique-suggestion-123',
   comment: 'Suggested improvement for clarity'
 });
+```
+
+### Setting Editor Content with Diff Suggestion HTML
+
+```typescript
+editor.commands.setContent(`
+  <p> This is some random text before suggestion
+  <span data-diff-suggestion data-diff-suggestion-id="unique-suggestion-123" data-diff-suggestion-comment="Suggested improvement for clarity">
+    <span data-diff-suggestion-old>The old text</span>
+    <span data-diff-suggestion-new>The improved text</span>
+  </span> the text follows suggestions.
+`);
 ```
 
 ### Advanced Configuration with Side-effects
@@ -67,7 +95,7 @@ const editor = new Editor({
       },
       className: 'custom-diff-wrapper',
       showButtons: true,
-      buttonText: {
+      buttons: {
         accept: 'Accept',
         reject: 'Reject',
       },
@@ -118,7 +146,7 @@ interface DiffSuggestionOptions {
   HTMLAttributes: Record<string, any>;
   className?: string;
   showButtons?: boolean;
-  buttonText?: {
+  buttons?: {
     accept?: string;
     reject?: string;
   };
@@ -154,29 +182,68 @@ interface DiffSuggestionMeta {
 
 ## Styling
 
-The extension includes default styles that can be customized by overriding CSS selectors:
+The extension follows TipTap's headless approach - no styles are included by default, giving you complete control over the appearance.
+
+### Quick Start with Sample Styles
+
+For rapid prototyping and development:
+
+```html
+<link rel="stylesheet" href="node_modules/@bsachinthana/tiptap-diff-suggestions/sample.css">
+```
+
+### CSS Variables
+
+The sample CSS includes CSS variables for easy theming:
+
+```css
+:root {
+  --diff-suggestion-border: #3b82f6;
+  --diff-suggestion-bg: rgba(59, 130, 246, 0.1);
+  --diff-old-bg: rgba(239, 68, 68, 0.2);
+  --diff-new-bg: rgba(34, 197, 94, 0.2);
+  --diff-accept-btn: #10b981;
+  --diff-reject-btn: #ef4444;
+  --diff-toolbar-bg: white;
+  --diff-toolbar-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode variables are also included */
+[data-theme="dark"] {
+  --diff-toolbar-bg: #1f2937;
+  --diff-toolbar-shadow: rgba(0, 0, 0, 0.3);
+  /* ... more dark mode variables */
+}
+```
+
+### Key CSS Selectors
+
+Target these selectors for custom styling:
 
 - `span[data-diff-suggestion]` - Main container
-- `span[data-diff-suggestion-old]` - Original text styling
+- `span[data-diff-suggestion-old]` - Original text styling  
 - `span[data-diff-suggestion-new]` - Suggested text styling
-- `.diff-actions` - Action buttons container
-- `.diff-accept-btn` - Accept button
-- `.diff-reject-btn` - Reject button
+- `.diff-suggestion-action-container` - Action buttons container
+- `[data-diff-suggestion-toolbar-accept]` - Accept button
+- `[data-diff-suggestion-toolbar-reject]` - Reject button
 
-### Custom Styles Example
+### Custom Styling Example
 
 ```css
 span[data-diff-suggestion] {
-  border: 2px solid #3b82f6;
+  border: 2px solid var(--diff-suggestion-border, #3b82f6);
   border-radius: 8px;
   padding: 4px 8px;
+  background: var(--diff-suggestion-bg, rgba(59, 130, 246, 0.1));
 }
 
-.diff-accept-btn {
-  background-color: #10b981;
+[data-diff-suggestion-toolbar-accept] {
+  background-color: var(--diff-accept-btn, #10b981);
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
+  border: none;
+  cursor: pointer;
 }
 ```
 
@@ -208,6 +275,8 @@ editor.commands.insertDiffSuggestion({
   comment: 'AI suggested improvement'
 });
 ```
+
+For additional usage scenarios and implementation samples, refer to the examples in the repository.
 
 ## Development
 
