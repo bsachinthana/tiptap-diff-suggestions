@@ -1,0 +1,163 @@
+/* CSS Variables for theming */
+:root {
+  /* Background colors */
+  --diff-accept-bg: #c6f6d5;
+  --diff-reject-bg: #fed7d7;
+  --diff-border-color: #e2e8f0;
+  --diff-hover-bg: #f1f5f9;
+  
+  /* Text colors */
+  --diff-accept-color: #22543d;
+  --diff-reject-color: #c53030;
+  
+  /* Button hover states */
+  --diff-button-hover-accept: #a7f3d0;
+  --diff-button-hover-reject: #fca5a5;
+  
+  /* Button styles */
+  --diff-button-border-radius: 3px;
+  --diff-button-padding: 2px 6px;
+  --diff-button-font-size: 12px;
+  --diff-button-min-width: 20px;
+  --diff-button-transition: all 0.2s ease;
+  
+  /* Container styles */
+  --diff-container-border-radius: 4px;
+  --diff-container-padding: 2px 4px;
+  --diff-container-margin: 0 2px;
+  --diff-container-transition: all 0.2s ease;
+  
+  /* Actions visibility */
+  --diff-actions-opacity: 0;
+  --diff-actions-hover-opacity: 1;
+  --diff-actions-transition: opacity 0.2s ease;
+}
+
+/* Default styles for the diff suggestion extension */
+span[data-diff-suggestion] {
+  display: inline-block;
+  position: relative;
+  border: 1px dashed var(--diff-border-color);
+  border-radius: var(--diff-container-border-radius);
+  padding: var(--diff-container-padding);
+  margin: var(--diff-container-margin);
+  background-color: var(--diff-hover-bg);
+  font-family: inherit;
+  line-height: 1.4;
+  transition: var(--diff-container-transition);
+}
+
+span[data-diff-suggestion]:hover {
+  border-style: solid;
+  background-color: var(--diff-hover-bg);
+}
+
+span[data-diff-suggestion-old] {
+  background-color: var(--diff-reject-bg);
+  color: var(--diff-reject-color);
+  text-decoration: line-through;
+  padding: 1px 2px;
+  border-radius: 2px;
+  margin-right: 2px;
+}
+
+span[data-diff-suggestion-new] {
+  background-color: var(--diff-accept-bg);
+  color: var(--diff-accept-color);
+  padding: 1px 2px;
+  border-radius: 2px;
+  margin-right: 4px;
+}
+
+.diff-actions {
+  display: inline-block;
+  margin-left: 4px;
+  opacity: var(--diff-actions-opacity);
+  transition: var(--diff-actions-transition);
+}
+
+span[data-diff-suggestion]:hover .diff-actions {
+  opacity: var(--diff-actions-hover-opacity);
+}
+
+.diff-accept-btn,
+.diff-reject-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: var(--diff-button-padding);
+  margin: 0 1px;
+  border-radius: var(--diff-button-border-radius);
+  font-size: var(--diff-button-font-size);
+  line-height: 1;
+  transition: var(--diff-button-transition);
+  vertical-align: middle;
+  min-width: var(--diff-button-min-width);
+  text-align: center;
+}
+
+.diff-accept-btn {
+  color: var(--diff-accept-color);
+  border: 1px solid transparent;
+}
+
+.diff-accept-btn:hover {
+  background-color: var(--diff-button-hover-accept);
+  border-color: var(--diff-accept-color);
+}
+
+.diff-reject-btn {
+  color: var(--diff-reject-color);
+  border: 1px solid transparent;
+}
+
+.diff-reject-btn:hover {
+  background-color: var(--diff-button-hover-reject);
+  border-color: var(--diff-reject-color);
+}
+
+/* Icon-specific styles */
+.diff-btn-icon {
+  font-style: normal;
+  font-weight: normal;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+}
+
+/* Text button styles */
+.diff-btn-text {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Custom class styling */
+.diff-suggestion {
+  /* Additional custom styling can be applied via configuration */
+  font-weight: inherit;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --diff-accept-bg: #14532d;
+    --diff-reject-bg: #7f1d1d;
+    --diff-border-color: #374151;
+    --diff-accept-color: #86efac;
+    --diff-reject-color: #fca5a5;
+    --diff-hover-bg: #374151;
+    --diff-button-hover-accept: #166534;
+    --diff-button-hover-reject: #991b1b;
+  }
+
+  span[data-diff-suggestion] {
+    background-color: #1f2937;
+  }
+
+  span[data-diff-suggestion]:hover {
+    background-color: var(--diff-hover-bg);
+  }
+}

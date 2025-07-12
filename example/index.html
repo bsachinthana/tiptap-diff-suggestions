@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TipTap Diff Suggestions Example</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        
+        .demo-section h3 {
+            margin-top: 0;
+            color: #374151;
+        }
+        
+        .editor {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 150px;
+            margin: 20px 0;
+        }
+        
+        .editor:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 8px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background: #f3f4f6;
+        }
+        
+        .info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        
+        .log {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>TipTap Diff Suggestions Extension - Styling Examples</h1>
+    
+    <div class="info">
+        <strong>This demo showcases different button styling options:</strong>
+        <ul>
+            <li>Basic text buttons (Accept/Reject)</li>
+            <li>Unicode emoji buttons (✓/✗)</li>
+            <li>Custom styled buttons with CSS</li>
+            <li>Icon-only buttons</li>
+            <li>Dark mode support</li>
+        </ul>
+    </div>
+
+    <!-- Example 1: Basic Text Buttons -->
+    <div class="demo-section">
+        <h3>Example 1: Basic Text Buttons</h3>
+        <div id="editor1" class="editor"></div>
+        <div class="controls">
+            <button onclick="addSample('editor1')">Add Sample Suggestion</button>
+            <button onclick="acceptAll('editor1')">Accept All</button>
+            <button onclick="rejectAll('editor1')">Reject All</button>
+        </div>
+    </div>
+
+    <!-- Example 2: Unicode Emoji Buttons -->
+    <div class="demo-section">
+        <h3>Example 2: Unicode Emoji Buttons</h3>
+        <div id="editor2" class="editor"></div>
+        <div class="controls">
+            <button onclick="addSample('editor2')">Add Sample Suggestion</button>
+            <button onclick="acceptAll('editor2')">Accept All</button>
+            <button onclick="rejectAll('editor2')">Reject All</button>
+        </div>
+    </div>
+
+    <!-- Example 3: Custom Styled Buttons -->
+    <div class="demo-section">
+        <h3>Example 3: Custom Styled Buttons</h3>
+        <div id="editor3" class="editor"></div>
+        <div class="controls">
+            <button onclick="addSample('editor3')">Add Sample Suggestion</button>
+            <button onclick="acceptAll('editor3')">Accept All</button>
+            <button onclick="rejectAll('editor3')">Reject All</button>
+        </div>
+    </div>
+
+    <!-- Example 4: Minimal Icon Buttons -->
+    <div class="demo-section">
+        <h3>Example 4: Minimal Icon Buttons</h3>
+        <div id="editor4" class="editor"></div>
+        <div class="controls">
+            <button onclick="addSample('editor4')">Add Sample Suggestion</button>
+            <button onclick="acceptAll('editor4')">Accept All</button>
+            <button onclick="rejectAll('editor4')">Reject All</button>
+        </div>
+    </div>
+
+    <!-- Global Controls -->
+    <div class="demo-section">
+        <h3>Global Controls</h3>
+        <div class="controls">
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+    </div>
+    
+    <div class="log" id="log">
+        <strong>Activity Log:</strong><br>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+</body>
+</html>
