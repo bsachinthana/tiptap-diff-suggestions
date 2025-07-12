@@ -1,0 +1,115 @@
+:root {
+  --editor-bg: #ffffff;
+  --editor-border: #e5e7eb;
+  --editor-text: #374151;
+  --accent-primary: #3b82f6;
+  --accent-success: #10b981;
+  --accent-danger: #ef4444;
+  --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --editor-bg: #1f2937;
+  --editor-border: #374151;
+  --editor-text: #f9fafb;
+  --accent-primary: #60a5fa;
+  --accent-success: #34d399;
+  --accent-danger: #f87171;
+}
+
+[data-theme="minimal"] {
+  --editor-bg: #fafafa;
+  --editor-border: #d1d5db;
+  --editor-text: #111827;
+  --accent-primary: #6b7280;
+  --accent-success: #059669;
+  --accent-danger: #dc2626;
+}
+
+[data-theme="colorful"] {
+  --editor-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --editor-border: #8b5cf6;
+  --editor-text: #ffffff;
+  --accent-primary: #f59e0b;
+  --accent-success: #10b981;
+  --accent-danger: #f43f5e;
+}
+
+.editor-container {
+  background: var(--editor-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: 8px;
+  padding: 16px;
+  color: var(--editor-text);
+  box-shadow: var(--shadow-light);
+  transition: all 0.2s ease;
+}
+
+.editor-container:focus-within {
+  box-shadow: var(--shadow-medium);
+  border-color: var(--accent-primary);
+}
+
+.custom-toolbar {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.toolbar-button {
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.toolbar-accept {
+  background: var(--accent-success);
+  color: white;
+}
+
+.toolbar-reject {
+  background: var(--accent-danger);
+  color: white;
+}
+
+.toolbar-info {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.toolbar-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.activity-log {
+  background: var(--editor-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: 6px;
+  padding: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--editor-text);
+}
+/* styles for bullet and paragraphs */
+
+ul {
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+  list-style-type: disc;
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+p {
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+}

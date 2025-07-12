@@ -1,0 +1,192 @@
+/* Custom theme overrides for TipTap Diff Suggestions Extension */
+/* This file demonstrates how to override the extension's built-in CSS variables */
+
+/* Light theme (default) - subtle overrides */
+[data-theme="light"] {
+  /* Override extension's default variables with custom light theme */
+  --diff-accept-bg: #dcfce7;
+  --diff-reject-bg: #fee2e2;
+  --diff-accept-color: #166534;
+  --diff-reject-color: #dc2626;
+  --diff-border-color: #e5e7eb;
+  --diff-hover-bg: #f9fafb;
+  --diff-toolbar-bg: rgba(255, 255, 255, 0.95);
+  --diff-button-hover-accept: #bbf7d0;
+  --diff-button-hover-reject: #fecaca;
+  
+  /* Container background for demo */
+  background-color: #ffffff;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+[data-theme="light"] #themed-tab .span[data-diff-suggestion] {
+    background-color: #f4f4f4 !important;
+  }
+/* Dark theme - complete override of extension defaults */
+[data-theme="dark"] {
+  /* Dark color palette overriding extension's light defaults */
+  --diff-accept-bg: #064e3b;
+  --diff-reject-bg: #7f1d1d;
+  --diff-accept-color: #6ee7b7;
+  --diff-reject-color: #fca5a5;
+  --diff-border-color: #374151;
+  --diff-hover-bg: #1f2937;
+  --diff-toolbar-bg: rgba(31, 41, 55, 0.95);
+  --diff-button-hover-accept: #047857;
+  --diff-button-hover-reject: #991b1b;
+  
+  /* Additional overrides for better dark mode experience */
+  --diff-container-bg: #111827;
+  --diff-text-color: #f9fafb;
+  
+  /* Container styling */
+  background-color: #111827;
+  color: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .editor {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .activity-log {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Minimal theme - subdued styling */
+[data-theme="minimal"] {
+  /* Minimal color palette - very subtle */
+  --diff-accept-bg: #f5f5f5;
+  --diff-reject-bg: #f5f5f5;
+  --diff-accept-color: #666666;
+  --diff-reject-color: #666666;
+  --diff-border-color: #d1d5db;
+  --diff-hover-bg: #f9f9f9;
+  --diff-toolbar-bg: rgba(255, 255, 255, 0.9);
+  --diff-button-hover-accept: #e5e5e5;
+  --diff-button-hover-reject: #e5e5e5;
+  
+  /* Override extension's border radius for minimal look */
+  --diff-container-border-radius: 2px;
+  --diff-button-border-radius: 2px;
+  
+  background-color: #fafafa;
+  color: #525252;
+  transition: all 0.3s ease;
+}
+
+/* Colorful theme - vibrant overrides */
+[data-theme="colorful"] {
+  /* Vibrant color palette */
+  --diff-accept-bg: #a0d490;
+  --diff-reject-bg: #fe94be;
+  --diff-accept-color: #059669;
+  --diff-reject-color: #e11d48;
+  --diff-border-color: #a855f7;
+  --diff-hover-bg: #fef3c7;
+  --diff-toolbar-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --diff-button-hover-accept: #10b981;
+  --diff-button-hover-reject: #f43f5e;
+  --diff-toolbar-bg: #f6f2d5;
+  /* Override extension's border radius for more playful look */
+  --diff-container-border-radius: 8px;
+  --diff-button-border-radius: 6px;
+  
+  /* Fun gradient background */
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  color: #7c2d12;
+  transition: all 0.3s ease;
+}
+
+[data-theme="colorful"] .editor {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #a855f7;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="colorful"] .activity-log {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #c084fc;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+/* Demonstrate CSS specificity - these override extension's defaults */
+[data-theme] #themed-tab span[data-diff-suggestion] {
+  /* This selector is more specific than the extension's base selector */
+  border-width: 2px;
+  border-style: dashed;
+  padding: 3px 6px;
+  margin: 0 1px;
+}
+
+[data-theme="dark"] span[data-diff-suggestion] {
+  /* Dark theme specific overrides */
+  border-style: solid;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="colorful"] span[data-diff-suggestion] {
+  /* Colorful theme specific overrides */
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+  transform: scale(1.02);
+}
+
+[data-theme="colorful"] span[data-diff-suggestion]:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Override extension's floating toolbar positioning for themes */
+[data-theme="dark"] .diff-suggestion-action-container,
+[data-theme="colorful"] .diff-suggestion-action-container {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="minimal"] .diff-suggestion-action-container {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+/* Custom animations for theme switching */
+[data-theme] * {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  [data-theme] {
+    --diff-border-color: #000000;
+    --diff-accept-color: #000000;
+    --diff-reject-color: #000000;
+  }
+  
+  [data-theme] span[data-diff-suggestion] {
+    border-width: 3px;
+    border-style: solid;
+  }
+}
+
+/* Print styles - hide interactive elements */
+@media print {
+  [data-theme] .diff-suggestion-action-container {
+    display: none !important;
+  }
+  
+  [data-theme] span[data-diff-suggestion] {
+    background: none !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+}

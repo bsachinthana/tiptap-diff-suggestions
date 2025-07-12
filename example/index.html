@@ -1,154 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TipTap Diff Suggestions Example</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
+        .tab-button.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
         }
         
-        .demo-section {
-            margin: 40px 0;
-            padding: 20px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-        }
-        
-        .demo-section h3 {
-            margin-top: 0;
-            color: #374151;
+        .hidden {
+            display: none !important;
         }
         
         .editor {
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             padding: 16px;
-            min-height: 150px;
+            min-height: 200px;
             margin: 20px 0;
         }
         
-        .editor:focus {
+        .editor:focus-within {
             outline: none;
             border-color: #3b82f6;
         }
         
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            padding: 8px 16px;
-            border: 1px solid #d1d5db;
+        .activity-log {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 6px;
-            background: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        button:hover {
-            background: #f3f4f6;
-        }
-        
-        .info {
-            background: #f0f9ff;
-            border: 1px solid #bae6fd;
-            border-radius: 6px;
-            padding: 16px;
-            margin: 20px 0;
-        }
-        
-        .log {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 6px;
-            padding: 16px;
-            margin: 20px 0;
-            font-family: monospace;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
             font-size: 14px;
             max-height: 200px;
             overflow-y: auto;
+            color: #374151;
         }
     </style>
 </head>
-<body>
-    <h1>TipTap Diff Suggestions Extension - Styling Examples</h1>
-    
-    <div class="info">
-        <strong>This demo showcases different button styling options:</strong>
-        <ul>
-            <li>Basic text buttons (Accept/Reject)</li>
-            <li>Unicode emoji buttons (✓/✗)</li>
-            <li>Custom styled buttons with CSS</li>
-            <li>Icon-only buttons</li>
-            <li>Dark mode support</li>
-        </ul>
-    </div>
+<body class="bg-gray-50 font-sans">
+    <div class="max-w-6xl mx-auto p-6">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">TipTap Diff Suggestions Extension</h1>
+            <p class="text-lg text-gray-600">Interactive examples demonstrating different configuration options</p>
+        </header>
 
-    <!-- Example 1: Basic Text Buttons -->
-    <div class="demo-section">
-        <h3>Example 1: Basic Text Buttons</h3>
-        <div id="editor1" class="editor"></div>
-        <div class="controls">
-            <button onclick="addSample('editor1')">Add Sample Suggestion</button>
-            <button onclick="acceptAll('editor1')">Accept All</button>
-            <button onclick="rejectAll('editor1')">Reject All</button>
-        </div>
-    </div>
+        <!-- Tab Navigation -->
+        <nav class="mb-8">
+            <div class="flex flex-wrap justify-center gap-2 border-b border-gray-200 pb-4">
+                <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors hover:bg-gray-100" 
+                        data-tab="basic" onclick="switchTab('basic')">
+                    Basic Editor
+                </button>
+                <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors hover:bg-gray-100" 
+                        data-tab="custom" onclick="switchTab('custom')">
+                    Custom Toolbar & Chain Actions
+                </button>
+                <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors hover:bg-gray-100" 
+                        data-tab="themed" onclick="switchTab('themed')">
+                    CSS Variable Theming
+                </button>
+                <button class="tab-button px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors hover:bg-gray-100" 
+                        data-tab="programmatic" onclick="switchTab('programmatic')">
+                    Custom Actions & Formatting
+                </button>
+            </div>
+        </nav>
 
-    <!-- Example 2: Unicode Emoji Buttons -->
-    <div class="demo-section">
-        <h3>Example 2: Unicode Emoji Buttons</h3>
-        <div id="editor2" class="editor"></div>
-        <div class="controls">
-            <button onclick="addSample('editor2')">Add Sample Suggestion</button>
-            <button onclick="acceptAll('editor2')">Accept All</button>
-            <button onclick="rejectAll('editor2')">Reject All</button>
+        <!-- Basic Editor Tab -->
+        <div id="basic-tab" class="tab-content">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-2xl font-semibold mb-4">Basic Editor with Default Buttons</h2>
+                <p class="text-gray-600 mb-4">Hover over suggestions to see the default floating accept/reject buttons.</p>
+                
+                <div id="basic-editor" class="editor"></div>
+                
+                <div class="flex gap-3 mb-4">
+                    <button onclick="addSample()" 
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                        Add Sample Suggestion
+                    </button>
+                    <button onclick="clearLog('basic-log')" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div id="basic-log" class="activity-log">
+                    <strong>Activity Log:</strong><br>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Example 3: Custom Styled Buttons -->
-    <div class="demo-section">
-        <h3>Example 3: Custom Styled Buttons</h3>
-        <div id="editor3" class="editor"></div>
-        <div class="controls">
-            <button onclick="addSample('editor3')">Add Sample Suggestion</button>
-            <button onclick="acceptAll('editor3')">Accept All</button>
-            <button onclick="rejectAll('editor3')">Reject All</button>
+        <!-- Custom Toolbar Tab -->
+        <div id="custom-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-2xl font-semibold mb-4">Custom Toolbar with Chain Actions</h2>
+                <p class="text-gray-600 mb-4">Uses renderActionMenu to create custom buttons with additional chained actions like info alerts.</p>
+                
+                <div id="custom-editor" class="editor"></div>
+                
+                <div class="flex gap-3 mb-4">
+                    <button onclick="clearLog('custom-log')" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div id="custom-log" class="activity-log">
+                    <strong>Activity Log:</strong><br>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Example 4: Minimal Icon Buttons -->
-    <div class="demo-section">
-        <h3>Example 4: Minimal Icon Buttons</h3>
-        <div id="editor4" class="editor"></div>
-        <div class="controls">
-            <button onclick="addSample('editor4')">Add Sample Suggestion</button>
-            <button onclick="acceptAll('editor4')">Accept All</button>
-            <button onclick="rejectAll('editor4')">Reject All</button>
+        <!-- Themed Editor Tab -->
+        <div id="themed-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-2xl font-semibold mb-4">Extension Theming with CSS Variables</h2>
+                <p class="text-gray-600 mb-4">Demonstrates how to use CSS variables to dynamically theme the diff suggestion extension itself.</p>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Choose Theme:</label>
+                    <div class="flex gap-2">
+                        <button onclick="switchTheme('light')" 
+                                class="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50">
+                            Light
+                        </button>
+                        <button onclick="switchTheme('dark')" 
+                                class="px-3 py-1 text-sm bg-gray-800 text-white border border-gray-800 rounded hover:bg-gray-700">
+                            Dark
+                        </button>
+                        <button onclick="switchTheme('minimal')" 
+                                class="px-3 py-1 text-sm bg-gray-100 border border-gray-300 rounded hover:bg-gray-200">
+                            Minimal
+                        </button>
+                        <button onclick="switchTheme('colorful')" 
+                                class="px-3 py-1 text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 rounded hover:from-purple-600 hover:to-pink-600">
+                            Colorful
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="themed-editor" class="editor"></div>
+                
+                <div class="flex gap-3 mb-4">
+                    <button onclick="clearLog('themed-log')" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div id="themed-log" class="activity-log">
+                    <strong>Activity Log:</strong><br>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Global Controls -->
-    <div class="demo-section">
-        <h3>Global Controls</h3>
-        <div class="controls">
-            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-            <button onclick="clearLog()">Clear Log</button>
+        <!-- Programmatic API Tab -->
+        <div id="programmatic-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 class="text-2xl font-semibold mb-4">Custom Actions with Full Replacement</h2>
+                <p class="text-gray-600 mb-4">Demonstrates custom handleAccept/handleReject that perform full replacement with formatting instead of plain text.</p>
+                
+                <div id="programmatic-editor" class="editor"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <button onclick="addGrammarSuggestion()" 
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+                        Add Suggestion
+                    </button>
+                    <button onclick="clearLog('programmatic-log')" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors">
+                        Clear Log
+                    </button>
+                </div>
+                
+                <div id="programmatic-log" class="activity-log">
+                    <strong>Activity Log:</strong><br>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-    
-    <div class="log" id="log">
-        <strong>Activity Log:</strong><br>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>TipTap Diff Suggestions Extension - Interactive Examples</p>
+        </footer>
     </div>
 
     <script type="module" src="./main.ts"></script>
