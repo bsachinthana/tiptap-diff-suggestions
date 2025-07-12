@@ -6,6 +6,16 @@ export interface DiffSuggestionMeta {
   accepted: boolean;
   originalText: string;
   suggestedText: string;
+  pos?: number; // Position in document for advanced use cases
+}
+
+export interface DiffSuggestionActionMeta {
+  id: string;
+  comment?: string;
+  originalText: string;
+  suggestedText: string;
+  pos: number;
+  accepted?: boolean;
 }
 
 export interface DiffSuggestionTheme {
@@ -58,13 +68,13 @@ export interface DiffSuggestionOptions {
     accept?: string | DiffSuggestionButtonConfig;
     reject?: string | DiffSuggestionButtonConfig;
   };
+ 
   /**
-   * Legacy button text (for backward compatibility)
+   * Custom action menu renderer - full control over toolbar UI
+   * @param meta - Suggestion metadata with position info
+   * @returns HTMLElement to be inserted as the action toolbar
    */
-  buttonText?: {
-    accept?: string;
-    reject?: string;
-  };
+  renderActionMenu?: (meta: DiffSuggestionActionMeta) => HTMLElement;
   /**
    * Theme configuration
    */

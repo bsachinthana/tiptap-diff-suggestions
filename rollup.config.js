@@ -3,34 +3,46 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 
-export default {
-  input: 'src/index.ts',
-  external: ['@tiptap/core', '@tiptap/pm/view', '@tiptap/pm/state', '@tiptap/pm/model'],
-  output: [
-    {
-      file: 'dist/index.js',
-      format: 'cjs',
-      sourcemap: true,
+export default [
+  {
+    input: 'src/index.ts',
+    external: ['@tiptap/core', '@tiptap/pm/view', '@tiptap/pm/state', '@tiptap/pm/model'],
+    output: [
+      {
+        file: 'dist/index.js',
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: 'dist/index.esm.js',
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      resolve({
+        browser: true,
+      }),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: true,
+        declarationDir: './dist',
+      }),
+    ],
+  },
+  {
+    input: 'src/styles/sample.css',
+    output: {
+      file: 'dist/sample.css',
+      format: 'es', // Only for CSS extraction
     },
-    {
-      file: 'dist/index.esm.js',
-      format: 'esm',
-      sourcemap: true,
-    },
-  ],
-  plugins: [
-    resolve({
-      browser: true,
-    }),
-    commonjs(),
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist',
-    }),
-    postcss({
-      extract: true,
-      minimize: true,
-    }),
-  ],
-};
+    plugins: [
+      postcss({
+        extract: true,
+        minimize: true,
+        output: 'dist/sample.css',
+      }),
+    ],
+  },
+];

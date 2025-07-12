@@ -1,7 +1,7 @@
 import type { NodeView } from '@tiptap/pm/view';
 import type { Node } from '@tiptap/pm/model';
 import type { EditorView } from '@tiptap/pm/view';
-import type { DiffSuggestionMeta, DiffSuggestionOptions } from './types';
+import type { DiffSuggestionMeta, DiffSuggestionOptions, DiffSuggestionActionMeta } from './types';
 
 /**
  * Framework-agnostic NodeView for diff suggestions
@@ -40,8 +40,14 @@ export class DiffSuggestionNodeView implements NodeView {
   }
 
   private render(): void {
-    // Direct access to node attributes - just like your Svelte props!
+    // Direct access to node attributes
     const { id, comment, originalText, suggestedText } = this.node.attrs;
+
+    // Create a wrapper for the suggestion content
+    const contentWrapper = document.createElement('span');
+    contentWrapper.className = 'diff-suggestion-content';
+    contentWrapper.style.position = 'relative';
+    contentWrapper.style.display = 'inline-block';
 
     // Create old text span
     const oldSpan = document.createElement('span');
@@ -53,48 +59,119 @@ export class DiffSuggestionNodeView implements NodeView {
     newSpan.setAttribute('data-diff-suggestion-new', '');
     newSpan.textContent = suggestedText || '';
 
-    // Create action buttons if enabled
-    let actionsContainer: HTMLElement | null = null;
-    if (this.options.showButtons !== false) {
-      actionsContainer = document.createElement('span');
-      actionsContainer.className = 'diff-actions';
+    contentWrapper.appendChild(oldSpan);
+    contentWrapper.appendChild(newSpan);
 
-      const acceptButton = document.createElement('button');
-      acceptButton.className = 'diff-accept-btn';
-      acceptButton.textContent = this.options.buttonText?.accept || '✓';
-      acceptButton.title = 'Accept suggestion';
-      acceptButton.type = 'button';
-      acceptButton.addEventListener('click', this.handleAccept.bind(this));
-
-      const rejectButton = document.createElement('button');
-      rejectButton.className = 'diff-reject-btn';
-      rejectButton.textContent = this.options.buttonText?.reject || '✗';
-      rejectButton.title = 'Reject suggestion';
-      rejectButton.type = 'button';
-      rejectButton.addEventListener('click', this.handleReject.bind(this));
-
-      actionsContainer.appendChild(acceptButton);
-      actionsContainer.appendChild(rejectButton);
+    // Create action menu/toolbar
+    const actionsContainer = this.createActionMenu();
+    
+    if (actionsContainer) {
+      contentWrapper.appendChild(actionsContainer);
+      
+      // Show/hide on hover
+      contentWrapper.addEventListener('mouseenter', () => {
+        actionsContainer.style.opacity = '1';
+      });
+      
+      contentWrapper.addEventListener('mouseleave', () => {
+        actionsContainer.style.opacity = '0';
+      });
     }
 
     // Clear and rebuild DOM
     this.dom.innerHTML = '';
-    this.dom.appendChild(oldSpan);
-    this.dom.appendChild(newSpan);
+    this.dom.appendChild(contentWrapper);
+  }
+
+  private createActionMenu(): HTMLElement | null {
+    // Skip if buttons are disabled
+    if (this.options.showButtons === false) {
+      return null;
+    }
+
+    const { id, comment, originalText, suggestedText } = this.node.attrs;
+    const pos = this.getPos();
     
-    if (actionsContainer) {
-      this.dom.appendChild(actionsContainer);
+    if (pos === undefined) return null;
+
+    const meta: DiffSuggestionActionMeta = {
+      id,
+      comment,
+      originalText: originalText || '',
+      suggestedText: suggestedText || '',
+      pos,
+    };
+
+    // Use custom renderActionMenu if provided
+    if (this.options.renderActionMenu) {
+      const customMenu = this.options.renderActionMenu(meta);
+      this.attachDefaultEventListeners(customMenu);
+      return customMenu;
+    }
+
+    // Create default toolbar
+    return this.createDefaultToolbar();
+  }
+
+  private createDefaultToolbar(): HTMLElement {
+    const actionsContainer = document.createElement('div');
+    actionsContainer.className = 'diff-suggestion-action-container';
+
+    const acceptButton = document.createElement('button');
+    acceptButton.className = 'diff-accept-btn';
+    acceptButton.setAttribute('data-diff-suggestion-toolbar-accept', '');
+    acceptButton.textContent = this.getButtonText('accept');
+    acceptButton.title = 'Accept suggestion';
+    acceptButton.type = 'button';
+
+    const rejectButton = document.createElement('button');
+    rejectButton.className = 'diff-reject-btn';
+    rejectButton.setAttribute('data-diff-suggestion-toolbar-reject', '');
+    rejectButton.textContent = this.getButtonText('reject');
+    rejectButton.title = 'Reject suggestion';
+    rejectButton.type = 'button';
+
+    actionsContainer.appendChild(acceptButton);
+    actionsContainer.appendChild(rejectButton);
+
+    this.attachDefaultEventListeners(actionsContainer);
+    return actionsContainer;
+  }
+
+  private getButtonText(type: 'accept' | 'reject'): string {
+    if (this.options.buttons?.[type]) {
+      const button = this.options.buttons[type];
+      if (typeof button === 'string') {
+        return button;
+      }
+      return button.content;
+    }
+    
+    return '';
+  }
+
+  private attachDefaultEventListeners(container: HTMLElement): void {
+    // Use semantic data-* attributes for button recognition
+    const acceptBtn = container.querySelector('[data-diff-suggestion-toolbar-accept]');
+    const rejectBtn = container.querySelector('[data-diff-suggestion-toolbar-reject]');
+    
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', this.handleAccept.bind(this));
+    }
+    if (rejectBtn) {
+      rejectBtn.addEventListener('click', this.handleReject.bind(this));
     }
   }
 
   private createMeta(action: 'accept' | 'reject'): DiffSuggestionMeta {
-    // Direct access to node attributes - much simpler!
+    const pos = this.getPos();
     return {
       id: this.node.attrs.id,
       comment: this.node.attrs.comment,
       accepted: action === 'accept',
       originalText: this.node.attrs.originalText || '',
       suggestedText: this.node.attrs.suggestedText || '',
+      pos: pos !== undefined ? pos : -1,
     };
   }
 
@@ -171,9 +248,9 @@ export class DiffSuggestionNodeView implements NodeView {
   }
 
   destroy(): void {
-    // Cleanup event listeners
-    const acceptBtn = this.dom.querySelector('.diff-accept-btn');
-    const rejectBtn = this.dom.querySelector('.diff-reject-btn');
+    // Cleanup event listeners - use semantic selectors
+    const acceptBtn = this.dom.querySelector('[data-diff-suggestion-toolbar-accept]');
+    const rejectBtn = this.dom.querySelector('[data-diff-suggestion-toolbar-reject]');
     
     if (acceptBtn) {
       acceptBtn.removeEventListener('click', this.handleAccept.bind(this));

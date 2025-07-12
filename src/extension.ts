@@ -11,9 +11,9 @@ export const DiffSuggestion = Node.create<DiffSuggestionOptions>({
       HTMLAttributes: {},
       className: 'diff-suggestion',
       showButtons: true,
-      buttonText: {
-        accept: 'Accept',
-        reject: 'Reject',
+      buttons: {
+        accept: '',
+        reject: '',
       },
     };
   },

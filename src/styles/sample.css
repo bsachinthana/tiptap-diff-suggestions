@@ -4,11 +4,11 @@
   --diff-accept-bg: #c6f6d5;
   --diff-reject-bg: #fed7d7;
   --diff-border-color: #e2e8f0;
-  --diff-hover-bg: #f1f5f9;
+  --diff-hover-bg: #e3e7eb;
   
   /* Text colors */
-  --diff-accept-color: #22543d;
-  --diff-reject-color: #c53030;
+  --diff-accept-color: #3d7a5e;
+  --diff-reject-color: #9a3a3a;
   
   /* Button hover states */
   --diff-button-hover-accept: #a7f3d0;
@@ -26,6 +26,14 @@
   --diff-container-padding: 2px 4px;
   --diff-container-margin: 0 2px;
   --diff-container-transition: all 0.2s ease;
+  
+  /* Toolbar styles */
+  --diff-toolbar-bg: rgba(255, 255, 255, 0.95);
+  --diff-toolbar-border: 1px solid var(--diff-border-color);
+  --diff-toolbar-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --diff-toolbar-border-radius: 6px;
+  --diff-toolbar-padding: 4px;
+  --diff-toolbar-gap: 2px;
   
   /* Actions visibility */
   --diff-actions-opacity: 0;
@@ -69,14 +77,26 @@ span[data-diff-suggestion-new] {
   margin-right: 4px;
 }
 
-.diff-actions {
-  display: inline-block;
-  margin-left: 4px;
+.diff-suggestion-action-container {
+  display: flex;
+  gap: var(--diff-toolbar-gap);
   opacity: var(--diff-actions-opacity);
   transition: var(--diff-actions-transition);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-top: -2rem;
+  z-index: 10;
+  background: var(--diff-toolbar-bg);
+  border: var(--diff-toolbar-border);
+  border-radius: var(--diff-toolbar-border-radius);
+  padding: var(--diff-toolbar-padding);
+  box-shadow: var(--diff-toolbar-shadow);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
-span[data-diff-suggestion]:hover .diff-actions {
+span[data-diff-suggestion]:hover .diff-suggestion-action-container {
   opacity: var(--diff-actions-hover-opacity);
 }
 
@@ -86,7 +106,7 @@ span[data-diff-suggestion]:hover .diff-actions {
   background: none;
   cursor: pointer;
   padding: var(--diff-button-padding);
-  margin: 0 1px;
+  margin: 0;
   border-radius: var(--diff-button-border-radius);
   font-size: var(--diff-button-font-size);
   line-height: 1;
@@ -94,6 +114,9 @@ span[data-diff-suggestion]:hover .diff-actions {
   vertical-align: middle;
   min-width: var(--diff-button-min-width);
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .diff-accept-btn {
@@ -112,6 +135,39 @@ span[data-diff-suggestion]:hover .diff-actions {
 }
 
 .diff-reject-btn:hover {
+  background-color: var(--diff-button-hover-reject);
+  border-color: var(--diff-reject-color);
+}
+
+/* Semantic button hooks via data-* attributes */
+[data-diff-suggestion-toolbar-accept] {
+  color: var(--diff-accept-color);
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  padding: var(--diff-button-padding);
+  border-radius: var(--diff-button-border-radius);
+  font-size: var(--diff-button-font-size);
+  transition: var(--diff-button-transition);
+}
+
+[data-diff-suggestion-toolbar-accept]:hover {
+  background-color: var(--diff-button-hover-accept);
+  border-color: var(--diff-accept-color);
+}
+
+[data-diff-suggestion-toolbar-reject] {
+  color: var(--diff-reject-color);
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  padding: var(--diff-button-padding);
+  border-radius: var(--diff-button-border-radius);
+  font-size: var(--diff-button-font-size);
+  transition: var(--diff-button-transition);
+}
+
+[data-diff-suggestion-toolbar-reject]:hover {
   background-color: var(--diff-button-hover-reject);
   border-color: var(--diff-reject-color);
 }
@@ -141,23 +197,23 @@ span[data-diff-suggestion]:hover .diff-actions {
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --diff-accept-bg: #14532d;
-    --diff-reject-bg: #7f1d1d;
-    --diff-border-color: #374151;
-    --diff-accept-color: #86efac;
-    --diff-reject-color: #fca5a5;
-    --diff-hover-bg: #374151;
-    --diff-button-hover-accept: #166534;
-    --diff-button-hover-reject: #991b1b;
-  }
 
-  span[data-diff-suggestion] {
-    background-color: #1f2937;
-  }
-
-  span[data-diff-suggestion]:hover {
-    background-color: var(--diff-hover-bg);
-  }
+[data-theme="dark"]  :root {
+  --diff-accept-bg: #14532d;
+  --diff-reject-bg: #7f1d1d;
+  --diff-border-color: #374151;
+  --diff-accept-color: #86efac;
+  --diff-reject-color: #fca5a5;
+  --diff-hover-bg: #374151;
+  --diff-button-hover-accept: #166534;
+  --diff-button-hover-reject: #991b1b;
 }
+
+[data-theme="dark"]  span[data-diff-suggestion] {
+  background-color: #1f2937;
+}
+
+[data-theme="dark"]  span[data-diff-suggestion]:hover {
+  background-color: var(--diff-hover-bg);
+}
+
