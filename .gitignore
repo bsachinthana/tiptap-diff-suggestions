@@ -59,6 +59,3 @@ pids
 
 # Optional eslint cache
 .eslintcache
-
-# Package lock files (if using yarn)
-package-lock.json

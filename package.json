@@ -1,6 +1,6 @@
 {
   "name": "@buddhima_a/tiptap-diff-suggestions",
-  "version": "1.0.0",
+  "version": "0.1.0-beta",
   "description": "A TipTap extension for actionable inline content suggestions, comparisons, and diff review workflows",
   "type": "module",
   "main": "dist/index.js",
