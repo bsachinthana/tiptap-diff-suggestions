@@ -1,22 +1,41 @@
 # Custom Action Toolbar Design
 
+> ## Content
+> [Overview](#overview) </br>
+> [Features](#features)
+> 1. [Semantic Action Mapping via data-* attributes](#1-semantic-action-mapping-via-data--attributes)
+> 2. [Custom Action Toolbar UI](#2-custom-action-toolbar-ui-via-renderactionmenu)
+> 3. [Framework Integration](#3-framework-integration-ready)
+>
+> [Usage Examples](#usage-examples)
+> 1. [Basic Usage](#basic-usage-default-styling)
+> 2. [Advanced Custom Toolbar](#advanced-custom-toolbar)
+>
+> [Styling](#-styling)
+>
+
+
+
+
 ## Overview
 
 The TipTap Diff Suggestions extension features a customizable action toolbar system, aligning with TipTap/ProseMirror's philosophy of extensibility and configuration. This document focuses specifically on the custom toolbar aspects. For general usage, refer to [README.md](README.md).
 
 ## Features
 
-### 1. Semantic Button Recognition via `data-*`
-Users can create any HTML structure, and the extension will automatically recognize the following buttons:
+### 1. Semantic Action Mapping via `data-*` Attributes
+
+The extension supports flexible markup by automatically binding logic to semantically labeled buttons:
 
 ```html
 <!-- These will be automatically handled -->
 <button data-diff-suggestion-toolbar-accept>Accept</button>
 <button data-diff-suggestion-toolbar-reject>Reject</button>
 ```
+
 This approach is ideal if you want to use custom button content (such as icons or styled elements) while retaining the default accept/reject actions handled by the extension.
 
-### 2. Full Custom UI via `renderActionMenu`
+### 2. Custom Action Toolbar UI via `renderActionMenu`
 Complete control over toolbar appearance and behaviour:
 
 ```typescript

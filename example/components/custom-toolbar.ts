@@ -2,7 +2,9 @@ import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { DiffSuggestion } from '../../dist/index.esm.js';
 import type { DiffSuggestionActionMeta } from '../../src/types.js';
-import { log } from '../shared/utils.js';
+import { cancelSvgIcon, checkSvgIcon, infoSvgIcon, log } from '../shared/utils.js';
+
+
 
 export function createCustomToolbarEditor(elementSelector: string, logElementId = 'custom-log') {
   const editor = new Editor({
@@ -30,9 +32,9 @@ export function createCustomToolbarEditor(elementSelector: string, logElementId 
 
           // Info button - shows comment in alert (chained action)
           const infoBtn = document.createElement('button');
-          infoBtn.innerHTML = 'ℹ️';
+          infoBtn.innerHTML = infoSvgIcon;
           infoBtn.title = 'Show suggestion details';
-          infoBtn.className = 'diff-btn-custom';
+          infoBtn.className = 'diff-btn-custom btn-info';
           infoBtn.style.cssText = `
             border: none;
             background: #f3f4f6;
@@ -48,9 +50,9 @@ export function createCustomToolbarEditor(elementSelector: string, logElementId 
           
           // Custom accept button
           const acceptBtn = document.createElement('button');
-          acceptBtn.innerHTML = '✅';
+          acceptBtn.innerHTML = checkSvgIcon;
           acceptBtn.title = 'Accept suggestion';
-          acceptBtn.className = 'diff-btn-custom';
+          acceptBtn.className = 'diff-btn-custom btn-accept';
           acceptBtn.setAttribute('data-diff-suggestion-toolbar-accept', '');
           acceptBtn.style.cssText = `
             border: none;
@@ -67,9 +69,9 @@ export function createCustomToolbarEditor(elementSelector: string, logElementId 
 
           // Custom reject button
           const rejectBtn = document.createElement('button');
-          rejectBtn.innerHTML = '❌';
+          rejectBtn.innerHTML = cancelSvgIcon;
           rejectBtn.title = 'Reject suggestion';
-          rejectBtn.className = 'diff-btn-custom';
+          rejectBtn.className = 'diff-btn-custom btn-reject';
           rejectBtn.setAttribute('data-diff-suggestion-toolbar-reject', '');
           rejectBtn.style.cssText = `
             border: none;

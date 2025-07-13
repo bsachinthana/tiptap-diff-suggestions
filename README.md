@@ -6,6 +6,27 @@ A TipTap extension for inline comparison of content with suggested revisions, in
 
 This extension provides a way to visualize and interact with suggested changes within a TipTap editor. It bridges the gap between static diff viewers and actionable content editing, allowing users to evaluate, accept, or reject suggestions directly in the editor.
 
+> ## Content
+> - [Use Cases](#use-cases)
+> - [Features](#features)
+> - [HTML Element Structure](#html-structure)
+> - [Installation](#installation)
+> - [Usage](#usage)
+>    - [Basic Setup](#basic-setup)
+>    - [Inserting diff Suggestions](#inserting-diff-suggestions)
+>    - [Set editor content with diff Suggestions](#setting-editor-content-with-diff-suggestion-html)
+>   - [Advanced Configuration with Side-effects](#advanced-configuration-with-side-effects)
+>   - [Custom Action Override](#custom-behavior-override)
+>
+> - [API Reference](#api-reference)
+> - [Styling](#styling)
+> - [Examples](#examples)
+> - [Development](#development)
+> - [Contributing](#contributing)
+>
+
+
+
 ## Use Cases
 
 - **AI-Powered Writing Assistance**: Displaying and managing suggestions from AI writing tools.
@@ -38,7 +59,7 @@ The extension generates the following HTML structure:
 ## Installation
 
 ```bash
-npm install @bsachinthana/tiptap-diff-suggestions
+npm install @buddhima_a/tiptap-diff-suggestions
 ```
 
 ## Usage
@@ -47,7 +68,7 @@ npm install @bsachinthana/tiptap-diff-suggestions
 
 ```typescript
 import { Editor } from '@tiptap/core';
-import { DiffSuggestion } from '@bsachinthana/tiptap-diff-suggestions';
+import { DiffSuggestion } from '@buddhima_a/tiptap-diff-suggestions';
 
 const editor = new Editor({
   extensions: [
@@ -85,7 +106,7 @@ editor.commands.setContent(`
 ### Advanced Configuration with Side-effects
 
 ```typescript
-import { DiffSuggestion } from '@tiptap/extension-diff-suggestions';
+import { DiffSuggestion } from '@buddhima_a/tiptap-diff-suggestions';
 
 const editor = new Editor({
   extensions: [
@@ -189,7 +210,7 @@ The extension follows TipTap's headless approach - no styles are included by def
 For rapid prototyping and development:
 
 ```html
-<link rel="stylesheet" href="node_modules/@bsachinthana/tiptap-diff-suggestions/sample.css">
+<link rel="stylesheet" href="node_modules/@buddhima_a/tiptap-diff-suggestions/sample.css">
 ```
 
 ### CSS Variables

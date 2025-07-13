@@ -12,8 +12,8 @@ export function createBasicEditor(elementSelector: string, logElementId = 'basic
         // Default configuration - minimal setup to showcase built-in features
         showButtons: true, // Default floating toolbar
         buttons: {
-          accept: 'Accept', // Accept button  
-          reject: 'Reject', // Reject button
+          accept: '✓', // Accept button  
+          reject: '✗', // Reject button
         },
         onAccept: (meta) => {
           log(`✅ Accepted suggestion "${meta.id}": "${meta.originalText}" → "${meta.suggestedText}"`, logElementId);

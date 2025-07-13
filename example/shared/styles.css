@@ -2,7 +2,7 @@
   --editor-bg: #ffffff;
   --editor-border: #e5e7eb;
   --editor-text: #374151;
-  --accent-primary: #3b82f6;
+  --accent-primary: #4489f9;
   --accent-success: #10b981;
   --accent-danger: #ef4444;
   --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -57,6 +57,18 @@
   align-items: center;
 }
 
+.custom-toolbar button.diff-btn-custom.btn-reject svg{
+  color: rgb(230, 25, 25);
+}
+
+.custom-toolbar button.diff-btn-custom.btn-accept svg{
+  color: rgb(3, 179, 123);
+}
+
+.custom-toolbar button.diff-btn-custom.btn-info svg{
+  color: rgb(23, 83, 234);
+
+}
 .toolbar-button {
   border: none;
   padding: 4px 8px;
@@ -68,17 +80,14 @@
 
 .toolbar-accept {
   background: var(--accent-success);
-  color: white;
 }
 
 .toolbar-reject {
   background: var(--accent-danger);
-  color: white;
 }
 
 .toolbar-info {
   background: var(--accent-primary);
-  color: white;
 }
 
 .toolbar-button:hover {

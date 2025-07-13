@@ -1,7 +1,7 @@
 {
-  "name": "@tiptap/extension-diff-suggestions",
+  "name": "@buddhima_a/tiptap-diff-suggestions",
   "version": "1.0.0",
-  "description": "A TipTap extension for inline diff suggestions and comparisons",
+  "description": "A TipTap extension for actionable inline content suggestions, comparisons, and diff review workflows",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,13 +21,16 @@
     "diff",
     "suggestions",
     "editor",
-    "prosemirror"
+    "prosemirror",
+    "inline editing",
+    "collaborative review",
+    "content suggestions"
   ],
-  "author": "Your Name",
+  "author": "Buddhima Amarathunga",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/tiptap-diff-suggestions.git"
+    "url": "https://github.com/bsachinthana/tiptap-diff-suggestions.git"
   },
   "peerDependencies": {
     "@tiptap/core": "^2.0.0",
